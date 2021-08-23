@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/CameraController.tscn" type="PackedScene" id=2]
+[ext_resource path="res://TestArea.gd" type="Script" id=4]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0, 0.337255, 0.0431373, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+material = SubResource( 1 )
+size = Vector3( 178, 0.1, 178 )
+
+[sub_resource type="ConcavePolygonShape" id=3]
+data = PoolVector3Array( -89, 0.05, 89, 89, 0.05, 89, -89, -0.05, 89, 89, 0.05, 89, 89, -0.05, 89, -89, -0.05, 89, 89, 0.05, -89, -89, 0.05, -89, 89, -0.05, -89, -89, 0.05, -89, -89, -0.05, -89, 89, -0.05, -89, 89, 0.05, 89, 89, 0.05, -89, 89, -0.05, 89, 89, 0.05, -89, 89, -0.05, -89, 89, -0.05, 89, -89, 0.05, -89, -89, 0.05, 89, -89, -0.05, -89, -89, 0.05, 89, -89, -0.05, 89, -89, -0.05, -89, 89, 0.05, 89, -89, 0.05, 89, 89, 0.05, -89, -89, 0.05, 89, -89, 0.05, -89, 89, 0.05, -89, -89, -0.05, 89, 89, -0.05, 89, -89, -0.05, -89, 89, -0.05, 89, 89, -0.05, -89, -89, -0.05, -89 )
+
+[node name="TestArea" type="Spatial"]
+script = ExtResource( 4 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.702849, 0.711339, 0, -0.711339, 0.702849, 86, 4.5304, -89 )
+light_color = Color( 1, 0.952941, 0.847059, 1 )
+light_energy = 6.0
+shadow_enabled = true
+
+[node name="CameraController" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance" groups=[
+"Island",
+]]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+shape = SubResource( 3 )
+
+[connection signal="input_event" from="MeshInstance/StaticBody" to="." method="_on_Island_input_event"]
